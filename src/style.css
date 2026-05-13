@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #fffda2;
+}
+
+/* NAVBAR */
+.navbar_container {
+    width: 100%;
+    height: 80px;
+    background-color: #232a31;
+    padding: 0 2rem;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
+    width: 50px;
+}
+
+.navbar_itens {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar_itens a {
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.navbar_itens a:hover {
+    color: #ffcc00;
+}
+
+.default-btn {
+    background-color: #ffcc00;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: #000 !important;
+    font-weight: bold;
+}
+
+/* HERO */
+.hero {
+    padding: 40px 20px;
+}
+
+.hero_container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.hero_container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* LIVROS */
+.menu_livros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.menu_livro {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    padding: 20px;
+}
+
+.menu_livro:hover {
+    transform: translateY(-5px);
+}
+
+.menu_livro img {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: contain;
+    background-color: #fff;
+}
+
+.menu_livro h2 {
+    margin: 15px 0 5px;
+}
+
+.menu_livro p {
+    padding: 0 10px;
+    color: #555;
+}
+
+.price {
+    font-size: 1.2rem;
+    color: #27ae60;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.add_cart {
+    background-color: #ffcc00;
+    border: none;
+    padding: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.add_cart:hover {
+    background-color: #e6b800;
+}
+
+/* LOGIN */
+#login {
+    width: 270px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#senha {
+    width: 270px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#submit {
+    background-color: #1500fd;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#login_box {
+    text-align: center;
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.logo_login {
+    width: 200px;
+    border-radius: 10px;
+}

@@ -1,53 +1,34 @@
-<form method="POST">
-
-ID do Livro:
-<input type="number" name="id">
-
-<br><br>
-
-Novo Título:
-<input type="text" name="titulo">
-
-<br><br>
-
-Novo Autor:
-<input type="text" name="autor">
-
-<br><br>
-
-Nova Categoria:
-<input type="text" name="categoria">
-
-<br><br>
-
-Nova Data de Publicação:
-<input type="date" name="data_publicacao">
-
-<br><br>
-
-Nova Quantidade:
-<input type="number" name="quantidade">
-
-<br><br>
-
-<input type="submit" value="Alterar">
-
-</form>
-
 <?php
 
 include("conexao.php");
 
+if(isset($_GET["id"])){
+
+$id = $_GET["id"];
+
+} else {
+
+echo "ID não informado";
+
+exit();
+
+}
+
+$sql = "SELECT * FROM livros WHERE id=$id";
+
+$resultado = mysqli_query($conexao, $sql);
+
+$dados = mysqli_fetch_assoc($resultado);
+
 if($_POST){
 
-$id = $_POST["id"];
 $titulo = $_POST["titulo"];
 $autor = $_POST["autor"];
 $categoria = $_POST["categoria"];
 $data_publicacao = $_POST["data_publicacao"];
 $quantidade = $_POST["quantidade"];
 
-$sql = "UPDATE livros 
+$sql = "UPDATE livros
 SET titulo='$titulo',
 autor='$autor',
 categoria='$categoria',
@@ -57,8 +38,56 @@ WHERE id=$id";
 
 mysqli_query($conexao, $sql);
 
-echo "Livro alterado";
+echo "<p style='text-align:center; color:green;'>
+Livro alterado com sucesso
+</p>";
 
 }
 
+include("header.php");
+
 ?>
+
+<div class="container">
+
+<h2>Alterar Livro</h2>
+
+<form method="POST">
+
+Título:
+<input type="text" name="titulo"
+value="<?php echo $dados['titulo']; ?>">
+
+<br>
+
+Autor:
+<input type="text" name="autor"
+value="<?php echo $dados['autor']; ?>">
+
+<br>
+
+Categoria:
+<input type="text" name="categoria"
+value="<?php echo $dados['categoria']; ?>">
+
+<br>
+
+Data de Publicação:
+<input type="date" name="data_publicacao"
+value="<?php echo $dados['data_publicacao']; ?>">
+
+<br>
+
+Quantidade:
+<input type="number" name="quantidade"
+value="<?php echo $dados['quantidade']; ?>">
+
+<br>
+
+<input type="submit" value="Alterar" class="add_cart">
+
+</form>
+
+</div>
+
+<?php include("footer.php"); ?>

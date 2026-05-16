@@ -1,3 +1,13 @@
+<?php
+
+if(session_status() == PHP_SESSION_NONE){
+
+session_start();
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -19,17 +29,29 @@
 
     <nav>
 
-        <a>
+        <a href="home.php">
             <img src="img/LOGO.png" class="logo">
         </a>
 
         <ul class="navbar_itens">
 
-            <li><a href="home.php">Início</a></li>
+            <?php if(isset($_SESSION["logado"])){ ?>
 
-            <li><a href="livros.php">Livros</a></li>
+                <li><a href="home.php">Início</a></li>
 
-            <li><a href="index.php" class="default-btn">Login</a></li>
+                <li><a href="livros.php">Livros</a></li>
+
+                <li><a href="usuarios.php">Usuários</a></li>
+
+                <li><a href="inserir.php">Cadastrar Livro</a></li>
+
+                <li><a href="logout.php" class="default-btn">Logout</a></li>
+
+            <?php } else { ?>
+
+                <li><a href="index.php" class="default-btn">Login</a></li>
+
+            <?php } ?>
 
         </ul>
 

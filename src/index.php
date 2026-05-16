@@ -1,28 +1,53 @@
 <?php
 
+session_start();
+
+// Inclui o arquivo que agora cria a variável $pdo
 include("conexao.php");
 
 if($_POST){
 
-$RA = $_POST["RA"];
-$senha = $_POST["senha"];
+    $RA = $_POST["RA"];
+    $senha = $_POST["senha"];
 
-$sql = "SELECT * FROM usuarios
-WHERE RA='$RA' AND senha='$senha'";
+    try {
+        // 1. Preparamos a consulta usando um "placeholder" (:RA) em vez de jogar a variável direto na String
+        $sql = "SELECT * FROM usuarios WHERE RA = :RA";
+        $stmt = $pdo->prepare($sql);
+        
+        // 2. Executamos passando o valor real com segurança
+        $stmt->execute(['RA' => $RA]);
+        
+        // 3. Pegamos o resultado (Equivalente ao mysqli_fetch_assoc)
+        $usuario = $stmt->fetch();
 
-$resultado = mysqli_query($conexao, $sql);
+        // Se o $usuario não for falso, significa que encontrou o RA no banco
+        if($usuario){
 
-if(mysqli_num_rows($resultado) > 0){
+            if(password_verify($senha, $usuario["senha"])){
 
-header("Location: home.php");
+                $_SESSION["logado"] = true;
 
-exit();
+                header("Location: home.php");
 
-} else {
+                exit();
 
-echo "RA ou senha incorretos";
+            } else {
 
-}
+                $erro = "Senha incorreta";
+
+            }
+
+        } else {
+
+            $erro = "Usuário não encontrado";
+
+        }
+
+    } catch (PDOException $e) {
+        // Caso aconteça algum erro no banco de dados durante o login
+        $erro = "Erro no sistema: " . $e->getMessage();
+    }
 
 }
 
@@ -30,36 +55,33 @@ include("header.php");
 
 ?>
 
-<form method="POST">
-
 <div id="login_box">
 
 <img class="logo_login" src="img/LOGO.png">
 
-<br><br><br>
+<br><br>
 
-RA <br>
+<form method="POST">
 
-<input type="text" id="login" name="RA">
+RA:
+<br>
+
+<input type="text" name="RA" id="login">
 
 <br>
 
-Senha <br>
+Senha:
+<br>
 
-<input type="password" id="senha" name="senha">
-
-<br><br>
-
-<input id="submit" type="submit" value="Entrar">
+<input type="password" name="senha" id="senha">
 
 <br><br>
 
-<a href="cadastro.php">
-Não tem uma conta? Cadastre-se
-</a>
-
-</div>
+<input type="submit" value="Entrar" id="submit">
 
 </form>
 
-<?php include("footer.php"); ?>
+<br>
+
+<a href="cadastro.php">
+Não tem uma conta? Cadastre-se

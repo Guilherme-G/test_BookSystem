@@ -1,14 +1,13 @@
 <?php
+$host = 'db'; $db = 'booksystem'; $user = 'root'; $pass = 'root'; // ou a senha que funcionou
+$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
 
-$host = "localhost";
-$usuario = "root";
-$senha = "";
-$banco = "booksystem";
-
-$conexao = new mysqli($host, $usuario, $senha, $banco);
-
-if ($conexao->connect_error) {
-    die("Erro de conexão: " . $conexao->connect_error);
+try {
+    $pdo = new PDO($dsn, $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
+} catch (PDOException $e) {
+    die("Erro de conexão: " . $e->getMessage());
 }
-
-?>
+// Certifique-se de que não há NADA (nem um espaço) depois daqui

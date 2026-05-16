@@ -1,8 +1,17 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION["logado"])){
+
+    header("Location: index.php");
+    exit();
+
+}
+
 include("conexao.php");
 
-$sql = "SELECT * FROM livros";
+$sql = "SELECT * FROM livros ORDER BY titulo ASC";
 
 $resultado = mysqli_query($conexao, $sql);
 
@@ -10,66 +19,67 @@ include("header.php");
 
 ?>
 
-<section class="hero">
+<div class="container">
 
-<div class="hero_container">
+    <h2>Lista de Livros</h2>
 
-<h1>Livros Disponíveis</h1>
+    <br>
+
+    <table class="tabela_livros">
+
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoria</th>
+            <th>Data</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+
+        <?php while($dados = mysqli_fetch_assoc($resultado)){ ?>
+
+        <tr>
+
+            <td><?php echo $dados["id"]; ?></td>
+
+            <td><?php echo $dados["titulo"]; ?></td>
+
+            <td><?php echo $dados["autor"]; ?></td>
+
+            <td><?php echo $dados["categoria"]; ?></td>
+
+            <td><?php echo $dados["data_publicacao"]; ?></td>
+
+            <td><?php echo $dados["quantidade"]; ?></td>
+
+            <td>
+
+                <a class="acao_link"
+                href="altera.php?id=<?php echo $dados["id"]; ?>">
+
+                Editar
+
+                </a>
+
+                <br><br>
+
+                <a class="acao_link"
+                href="exclui.php?id=<?php echo $dados["id"]; ?>"
+                onclick="return confirm('Tem certeza que deseja excluir este livro?')">
+
+                Excluir
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        <?php } ?>
+
+    </table>
 
 </div>
-
-<div class="menu_livros">
-
-<?php
-
-while($dados = mysqli_fetch_assoc($resultado)){
-
-?>
-
-<div class="menu_livro">
-
-<h2><?php echo $dados["titulo"]; ?></h2>
-
-<p><strong>Autor:</strong> <?php echo $dados["autor"]; ?></p>
-
-<p><strong>Categoria:</strong> <?php echo $dados["categoria"]; ?></p>
-
-<p><strong>Publicação:</strong> <?php echo $dados["data_publicacao"]; ?></p>
-
-<p><strong>Quantidade:</strong> <?php echo $dados["quantidade"]; ?></p>
-
-<br>
-
-<a href="altera.php?id=<?php echo $dados['id']; ?>">
-
-<button class="add_cart">
-
-Alterar
-
-</button>
-
-</a>
-
-<a href="exclui.php?id=<?php echo $dados['id']; ?>">
-
-<button class="add_cart">
-
-Excluir
-
-</button>
-
-</a>
-
-</div>
-
-<?php
-
-}
-
-?>
-
-</div>
-
-</section>
 
 <?php include("footer.php"); ?>

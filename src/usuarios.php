@@ -1,8 +1,18 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION["logado"])){
+
+header("Location: index.php");
+
+exit();
+
+}
+
 include("conexao.php");
 
-$sql = "SELECT * FROM usuarios";
+$sql = "SELECT * FROM usuarios ORDER BY nome ASC";
 
 $resultado = mysqli_query($conexao, $sql);
 
@@ -10,15 +20,23 @@ include("header.php");
 
 ?>
 
-<section class="hero">
+<div class="container">
 
-<div class="hero_container">
+<h2>Usuários do Sistema</h2>
 
-<h1>Usuários do Sistema</h1>
+<br>
 
-</div>
+<table class="tabela_livros">
 
-<div class="menu_livros">
+<tr>
+
+<th>ID Usuário</th>
+<th>Nome</th>
+<th>RA</th>
+<th>Email</th>
+<th>Telefone</th>
+
+</tr>
 
 <?php
 
@@ -26,17 +44,19 @@ while($dados = mysqli_fetch_assoc($resultado)){
 
 ?>
 
-<div class="menu_livro">
+<tr>
 
-<h2><?php echo $dados["nome"]; ?></h2>
+<td><?php echo $dados["id_usuario"]; ?></td>
 
-<p><strong>RA:</strong> <?php echo $dados["RA"]; ?></p>
+<td><?php echo $dados["nome"]; ?></td>
 
-<p><strong>E-mail:</strong> <?php echo $dados["email"]; ?></p>
+<td><?php echo $dados["RA"]; ?></td>
 
-<p><strong>Telefone:</strong> <?php echo $dados["telefone"]; ?></p>
+<td><?php echo $dados["email"]; ?></td>
 
-</div>
+<td><?php echo $dados["telefone"]; ?></td>
+
+</tr>
 
 <?php
 
@@ -44,8 +64,8 @@ while($dados = mysqli_fetch_assoc($resultado)){
 
 ?>
 
-</div>
+</table>
 
-</section>
+</div>
 
 <?php include("footer.php"); ?>

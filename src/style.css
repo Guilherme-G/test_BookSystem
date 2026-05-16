@@ -10,6 +10,7 @@ body {
 }
 
 /* NAVBAR */
+
 .navbar_container {
     width: 100%;
     height: 80px;
@@ -25,7 +26,7 @@ nav {
 }
 
 .logo {
-    width: 50px;
+    width: 70px;
 }
 
 .navbar_itens {
@@ -38,6 +39,7 @@ nav {
     color: #fff;
     text-decoration: none;
     transition: 0.3s;
+    font-weight: bold;
 }
 
 .navbar_itens a:hover {
@@ -46,13 +48,14 @@ nav {
 
 .default-btn {
     background-color: #ffcc00;
-    padding: 8px 12px;
+    padding: 10px 15px;
     border-radius: 5px;
     color: #000 !important;
     font-weight: bold;
 }
 
 /* HERO */
+
 .hero {
     padding: 40px 20px;
 }
@@ -68,6 +71,7 @@ nav {
 }
 
 /* LIVROS */
+
 .menu_livros {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -81,7 +85,7 @@ nav {
     text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     transition: transform 0.3s;
-    padding: 20px;
+    padding-bottom: 15px;
 }
 
 .menu_livro:hover {
@@ -90,33 +94,36 @@ nav {
 
 .menu_livro img {
     width: 100%;
-    height: auto;
-    max-height: 250px;
+    height: 300px;
     object-fit: contain;
     background-color: #fff;
+    padding: 10px;
 }
 
 .menu_livro h2 {
-    margin: 15px 0 5px;
+    margin: 15px 0 10px;
+    padding: 0 10px;
 }
 
 .menu_livro p {
     padding: 0 10px;
     color: #555;
+    margin-bottom: 10px;
 }
 
 .price {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #27ae60;
     margin: 10px 0;
     font-weight: bold;
 }
 
+/* BOTÕES */
+
 .add_cart {
     background-color: #ffcc00;
     border: none;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 10px 15px;
     cursor: pointer;
     border-radius: 6px;
     font-weight: bold;
@@ -128,6 +135,7 @@ nav {
 }
 
 /* LOGIN */
+
 #login {
     width: 270px;
     padding: 10px;
@@ -152,19 +160,175 @@ nav {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+#submit:hover {
+    background-color: #0d00a8;
 }
 
 #login_box {
     text-align: center;
-    width: 300px;
+    width: 350px;
     margin: 100px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 30px;
+    border-radius: 10px;
     background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .logo_login {
     width: 200px;
     border-radius: 10px;
+}
+
+/* CONTAINERS */
+
+.container {
+
+    width: 95%;
+    max-width: 1400px;
+    margin: 40px auto;
+    background-color: #f4f4f4;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+}
+
+.container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* FORMULÁRIOS */
+
+.container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.container input[type="text"],
+.container input[type="password"],
+.container input[type="number"],
+.container input[type="date"],
+.container input[type="email"] {
+
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+
+}
+
+.container input[type="submit"] {
+
+    background-color: #1500fd;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+
+}
+
+.container input[type="submit"]:hover {
+
+    background-color: #0d00a8;
+
+}
+
+/* TABELA */
+
+.tabela_livros {
+
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    table-layout: auto;
+
+}
+
+.tabela_livros th {
+
+    background-color: #232a31;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    white-space: nowrap;
+
+}
+
+.tabela_livros td {
+
+    padding: 15px;
+    border: 1px solid #ccc;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.tabela_livros tr:nth-child(even) {
+
+    background-color: #f2f2f2;
+
+}
+
+/* COLUNAS */
+
+.tabela_livros td:nth-child(2) {
+
+    min-width: 250px;
+
+}
+
+.tabela_livros td:nth-child(3) {
+
+    min-width: 180px;
+
+}
+
+.tabela_livros td:nth-child(4) {
+
+    min-width: 150px;
+
+}
+
+.tabela_livros td:nth-child(5) {
+
+    min-width: 120px;
+
+}
+
+.tabela_livros td:nth-child(7) {
+
+    min-width: 120px;
+
+}
+
+/* LINKS */
+
+.acao_link {
+
+    text-decoration: none;
+    font-weight: bold;
+    color: #1500fd;
+
+}
+
+.acao_link:hover {
+
+    color: #ffcc00;
+
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    margin-top: 40px;
 }

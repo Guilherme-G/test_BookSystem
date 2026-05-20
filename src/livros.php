@@ -11,9 +11,19 @@ if(!isset($_SESSION["logado"])){
 
 include("conexao.php");
 
-$sql = "SELECT * FROM livros ORDER BY titulo ASC";
+try {
 
-$resultado = mysqli_query($conexao, $sql);
+    $sql = "SELECT * FROM livros ORDER BY titulo ASC";
+
+    $stmt = $pdo->query($sql);
+
+    $resultados = $stmt->fetchAll();
+
+} catch (PDOException $e) {
+
+    die("Erro ao carregar os livros: " . $e->getMessage());
+
+}
 
 include("header.php");
 
@@ -37,7 +47,7 @@ include("header.php");
             <th>Ações</th>
         </tr>
 
-        <?php while($dados = mysqli_fetch_assoc($resultado)){ ?>
+        <?php foreach($resultados as $dados){ ?>
 
         <tr>
 

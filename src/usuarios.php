@@ -14,7 +14,9 @@ include("conexao.php");
 
 $sql = "SELECT * FROM usuarios ORDER BY nome ASC";
 
-$resultado = mysqli_query($conexao, $sql);
+$stmt = $pdo->query($sql);
+
+$resultados = $stmt->fetchAll();
 
 include("header.php");
 
@@ -38,11 +40,7 @@ include("header.php");
 
 </tr>
 
-<?php
-
-while($dados = mysqli_fetch_assoc($resultado)){
-
-?>
+<?php foreach($resultados as $dados){ ?>
 
 <tr>
 
@@ -58,11 +56,7 @@ while($dados = mysqli_fetch_assoc($resultado)){
 
 </tr>
 
-<?php
-
-}
-
-?>
+<?php } ?>
 
 </table>
 

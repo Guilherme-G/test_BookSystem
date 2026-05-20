@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 if(!isset($_SESSION["logado"])){
@@ -8,6 +9,7 @@ header("Location: index.php");
 exit();
 
 }
+
 include("conexao.php");
 
 if($_POST){
@@ -20,17 +22,20 @@ $quantidade = $_POST["quantidade"];
 
 $sql = "INSERT INTO livros
 (titulo, autor, categoria, data_publicacao, quantidade)
-
 VALUES
+(:titulo, :autor, :categoria, :data_publicacao, :quantidade)";
 
-('$titulo', '$autor', '$categoria',
-'$data_publicacao', '$quantidade')";
+$stmt = $pdo->prepare($sql);
 
-mysqli_query($conexao, $sql);
+$stmt->bindParam(":titulo", $titulo);
+$stmt->bindParam(":autor", $autor);
+$stmt->bindParam(":categoria", $categoria);
+$stmt->bindParam(":data_publicacao", $data_publicacao);
+$stmt->bindParam(":quantidade", $quantidade);
 
-echo "<p style='text-align:center; color:green;'>
-Livro cadastrado com sucesso
-</p>";
+$stmt->execute();
+
+$mensagem = "Livro cadastrado com sucesso";
 
 }
 
@@ -72,6 +77,20 @@ Quantidade:
 <input type="submit" value="Cadastrar" class="add_cart">
 
 </form>
+
+<br>
+
+<?php
+
+if(isset($mensagem)){
+
+echo "<p style='color:green; text-align:center;'>
+$mensagem
+</p>";
+
+}
+
+?>
 
 </div>
 

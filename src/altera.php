@@ -1,5 +1,15 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION["logado"])){
+
+header("Location: index.php");
+
+exit();
+
+}
+
 include("conexao.php");
 
 if(isset($_GET["id"])){
@@ -14,11 +24,13 @@ exit();
 
 }
 
-$sql = "SELECT * FROM livros WHERE id=$id";
+$sql = "SELECT * FROM livros WHERE id = :id";
 
-$resultado = mysqli_query($conexao, $sql);
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(":id", $id);
+$stmt->execute();
 
-$dados = mysqli_fetch_assoc($resultado);
+$dados = $stmt->fetch();
 
 if($_POST){
 
@@ -29,18 +41,25 @@ $data_publicacao = $_POST["data_publicacao"];
 $quantidade = $_POST["quantidade"];
 
 $sql = "UPDATE livros
-SET titulo='$titulo',
-autor='$autor',
-categoria='$categoria',
-data_publicacao='$data_publicacao',
-quantidade='$quantidade'
-WHERE id=$id";
+SET titulo = :titulo,
+autor = :autor,
+categoria = :categoria,
+data_publicacao = :data_publicacao,
+quantidade = :quantidade
+WHERE id = :id";
 
-mysqli_query($conexao, $sql);
+$stmt = $pdo->prepare($sql);
 
-echo "<p style='text-align:center; color:green;'>
-Livro alterado com sucesso
-</p>";
+$stmt->bindParam(":titulo", $titulo);
+$stmt->bindParam(":autor", $autor);
+$stmt->bindParam(":categoria", $categoria);
+$stmt->bindParam(":data_publicacao", $data_publicacao);
+$stmt->bindParam(":quantidade", $quantidade);
+$stmt->bindParam(":id", $id);
+
+$stmt->execute();
+
+$mensagem = "Livro alterado com sucesso";
 
 }
 
@@ -88,6 +107,20 @@ value="<?php echo $dados['quantidade']; ?>">
 
 </form>
 
+<br>
+
+<?php
+
+if(isset($mensagem)){
+
+echo "<p style='text-align:center; color:green;'>
+$mensagem
+</p>";
+
+}
+
+?>
+
 </div>
 
-<?php include("footer.php"); ?>
+<?php include("footer.php");

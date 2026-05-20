@@ -9,13 +9,11 @@ if(!isset($_SESSION["logado"])){
 
 }
 
-// Inclui o arquivo que agora cria a variável $pdo
 include("conexao.php");
 
 try {
     $sql = "SELECT * FROM livros ORDER BY titulo ASC";
 
-    // Executa a query usando o PDO e busca todos os registros de uma vez
     $stmt = $pdo->query($sql);
     $resultados = $stmt->fetchAll();
 
@@ -40,7 +38,7 @@ include("header.php");
 <div class="menu_livros">
 
 <?php
-// Alterado de 'while' com 'mysqli_fetch_assoc' para 'foreach' com o array do PDO
+
 foreach($resultados as $dados){
 
     $imagem = "";
@@ -61,4 +59,50 @@ foreach($resultados as $dados){
         $imagem = "Livro_JAVA.jpg";
     }
 
-    elseif($dados["titulo"] == "Programação Utilizando IA
+    elseif($dados["titulo"] == "Programação Utilizando IA"){
+        $imagem = "Livro_UTILIZANDO_IA.jpg";
+    }
+
+    else{
+        $imagem = "Livro_ALGORITMOS.jpg";
+    }
+
+?>
+
+<div class="menu_livro">
+
+<img src="img/<?php echo $imagem; ?>">
+
+<h2><?php echo $dados["titulo"]; ?></h2>
+
+<p><strong>Autor:</strong> <?php echo $dados["autor"]; ?></p>
+
+<p><strong>Categoria:</strong> <?php echo $dados["categoria"]; ?></p>
+
+<p><strong>Data:</strong> <?php echo $dados["data_publicacao"]; ?></p>
+
+<div class="price">
+
+Quantidade: <?php echo $dados["quantidade"]; ?>
+
+</div>
+
+<button class="add_cart">
+
+Ver Livro
+
+</button>
+
+</div>
+
+<?php
+
+}
+
+?>
+
+</div>
+
+</section>
+
+<?php include("footer.php"); ?>

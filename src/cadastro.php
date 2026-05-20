@@ -14,13 +14,18 @@ $senha_criptografada = password_hash($senha, PASSWORD_DEFAULT);
 
 $sql = "INSERT INTO usuarios
 (nome, RA, senha, email, telefone)
-
 VALUES
+(:nome, :RA, :senha, :email, :telefone)";
 
-('$nome', '$RA', '$senha_criptografada',
-'$email', '$telefone')";
+$stmt = $pdo->prepare($sql);
 
-mysqli_query($conexao, $sql);
+$stmt->bindParam(":nome", $nome);
+$stmt->bindParam(":RA", $RA);
+$stmt->bindParam(":senha", $senha_criptografada);
+$stmt->bindParam(":email", $email);
+$stmt->bindParam(":telefone", $telefone);
+
+$stmt->execute();
 
 $mensagem = "Usuário cadastrado com sucesso";
 

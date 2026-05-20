@@ -2,52 +2,42 @@
 
 session_start();
 
-// Inclui o arquivo que agora cria a variável $pdo
 include("conexao.php");
 
 if($_POST){
 
-    $RA = $_POST["RA"];
-    $senha = $_POST["senha"];
+$RA = $_POST["RA"];
+$senha = $_POST["senha"];
 
-    try {
-        // 1. Preparamos a consulta usando um "placeholder" (:RA) em vez de jogar a variável direto na String
-        $sql = "SELECT * FROM usuarios WHERE RA = :RA";
-        $stmt = $pdo->prepare($sql);
-        
-        // 2. Executamos passando o valor real com segurança
-        $stmt->execute(['RA' => $RA]);
-        
-        // 3. Pegamos o resultado (Equivalente ao mysqli_fetch_assoc)
-        $usuario = $stmt->fetch();
+$sql = "SELECT * FROM usuarios WHERE RA = :RA";
 
-        // Se o $usuario não for falso, significa que encontrou o RA no banco
-        if($usuario){
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(":RA", $RA);
+$stmt->execute();
 
-            if(password_verify($senha, $usuario["senha"])){
+$usuario = $stmt->fetch();
 
-                $_SESSION["logado"] = true;
+if($usuario){
 
-                header("Location: home.php");
+if(password_verify($senha, $usuario["senha"])){
 
-                exit();
+$_SESSION["logado"] = true;
 
-            } else {
+header("Location: home.php");
 
-                $erro = "Senha incorreta";
+exit();
 
-            }
+} else {
 
-        } else {
+$erro = "RA ou senha incorretos";
 
-            $erro = "Usuário não encontrado";
+}
 
-        }
+} else {
 
-    } catch (PDOException $e) {
-        // Caso aconteça algum erro no banco de dados durante o login
-        $erro = "Erro no sistema: " . $e->getMessage();
-    }
+$erro = "RA ou senha incorretos";
+
+}
 
 }
 
@@ -85,3 +75,22 @@ Senha:
 
 <a href="cadastro.php">
 Não tem uma conta? Cadastre-se
+</a>
+
+<br><br>
+
+<?php
+
+if(isset($erro)){
+
+echo "<p style='color:red; text-align:center; font-weight:bold;'>
+$erro
+</p>";
+
+}
+
+?>
+
+</div>
+
+<?php include("footer.php"); ?>

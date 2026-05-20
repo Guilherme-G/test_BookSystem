@@ -1,8 +1,10 @@
 <?php
 
+// Verifica se a sessão ainda não foi iniciada no servidor
 if(session_status() == PHP_SESSION_NONE){
 
-session_start();
+    // Se não houver sessão ativa, inicia a sessão (evita erros de "session already started")
+    session_start();
 
 }
 
@@ -35,7 +37,10 @@ session_start();
 
         <ul class="navbar_itens">
 
-            <?php if(isset($_SESSION["logado"])){ ?>
+            <?php 
+            // CONDICIONAL PHP: Se a variável de sessão "logado" existir, mostra o menu do usuário autenticado
+            if(isset($_SESSION["logado"])){ 
+            ?>
 
                 <li><a href="home.php">Início</a></li>
 
@@ -47,11 +52,14 @@ session_start();
 
                 <li><a href="logout.php" class="default-btn">Logout</a></li>
 
-            <?php } else { ?>
+            <?php 
+            // Caso a variável "logado" NÃO exista, executa o bloco abaixo
+            } else { 
+            ?>
 
                 <li><a href="index.php" class="default-btn">Login</a></li>
 
-            <?php } ?>
+            <?php } // Fim da condicional PHP ?>
 
         </ul>
 

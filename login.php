@@ -1,42 +1,50 @@
 <form method="POST">
 
-RA:
-<input type="text" name="RA">
+    RA:
+    <input type="text" name="RA">
 
-<br><br>
+    <br><br>
 
-Senha:
-<input type="password" name="senha">
+    Senha:
+    <input type="password" name="senha">
 
-<br><br>
+    <br><br>
 
-<input type="submit" value="Entrar">
+    <input type="submit" value="Entrar">
 
 </form>
 
 <?php
 
+// Inclui o arquivo de conexão com o banco de dados
 include("conexao.php");
 
+// Verifica se o formulário foi enviado (se existe uma requisição POST)
 if($_POST){
 
-$RA = $_POST["RA"];
-$senha = $_POST["senha"];
+    // Recebe os dados digitados pelo usuário nos campos 'RA' e 'senha'
+    $RA = $_POST["RA"];
+    $senha = $_POST["senha"];
 
-$sql = "SELECT * FROM usuarios
-WHERE RA='$RA' AND senha='$senha'";
+    // Monta a consulta SQL buscando um usuário onde o RA E a senha batam exatamente com o que foi digitado
+    $sql = "SELECT * FROM usuarios
+    WHERE RA='$RA' AND senha='$senha'";
 
-$resultado = mysqli_query($conexao, $sql);
+    // Executa a consulta no banco de dados
+    $resultado = mysqli_query($conexao, $sql);
 
-if(mysqli_num_rows($resultado) > 0){
+    // Verifica se a consulta retornou pelo menos 1 registro válido
+    if(mysqli_num_rows($resultado) > 0){
 
-echo "Login realizado com sucesso";
+        // Se encontrou o usuário, exibe mensagem de sucesso
+        echo "Login realizado com sucesso";
 
-} else {
+    } else {
 
-echo "RA ou senha incorretos";
+        // Se não encontrou nenhuma combinação correspondente, exibe mensagem de erro
+        echo "RA ou senha incorretos";
 
-}
+    }
 
 }
 

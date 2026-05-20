@@ -1,84 +1,92 @@
 <?php
 
+// Inclui o arquivo de conexão com o banco de dados
 include("conexao.php");
 
+// Verifica se o formulário foi enviado via método POST
 if($_POST){
 
-$nome = $_POST["nome"];
-$RA = $_POST["RA"];
-$senha = $_POST["senha"];
-$email = $_POST["email"];
-$telefone = $_POST["telefone"];
+    // Recebe os dados digitados pelo usuário no formulário
+    $nome = $_POST["nome"];
+    $RA = $_POST["RA"];
+    $senha = $_POST["senha"];
+    $email = $_POST["email"];
+    $telefone = $_POST["telefone"];
 
-$senha_criptografada = password_hash($senha, PASSWORD_DEFAULT);
+    // Cria uma hash segura da senha antes de salvar no banco (Garante que a senha não fique em texto limpo)
+    $senha_criptografada = password_hash($senha, PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO usuarios
-(nome, RA, senha, email, telefone)
+    // Monta a instrução SQL para inserir o novo usuário na tabela 'usuarios'
+    $sql = "INSERT INTO usuarios
+    (nome, RA, senha, email, telefone)
+    VALUES
+    ('$nome', '$RA', '$senha_criptografada', '$email', '$telefone')";
 
-VALUES
+    // Executa o comando de inserção no banco de dados
+    mysqli_query($conexao, $sql);
 
-('$nome', '$RA', '$senha_criptografada',
-'$email', '$telefone')";
-
-mysqli_query($conexao, $sql);
-
-$mensagem = "Usuário cadastrado com sucesso";
+    // Cria uma variável com a mensagem de sucesso que será exibida mais abaixo
+    $mensagem = "Usuário cadastrado com sucesso";
 
 }
 
+// Inclui o arquivo de cabeçalho (HTML inicial, estilização, menu)
 include("header.php");
 
 ?>
 
 <div class="container">
 
-<h2>Cadastro de Usuário</h2>
+    <h2>Cadastro de Usuário</h2>
 
-<form method="POST">
+    <form method="POST">
 
-Nome:
-<input type="text" name="nome">
+        Nome:
+        <input type="text" name="nome">
 
-<br>
+        <br>
 
-RA:
-<input type="text" name="RA">
+        RA:
+        <input type="text" name="RA">
 
-<br>
+        <br>
 
-Senha:
-<input type="password" name="senha">
+        Senha:
+        <input type="password" name="senha">
 
-<br>
+        <br>
 
-E-mail:
-<input type="email" name="email">
+        E-mail:
+        <input type="email" name="email">
 
-<br>
+        <br>
 
-Telefone:
-<input type="text" name="telefone">
+        Telefone:
+        <input type="text" name="telefone">
 
-<br>
+        <br>
 
-<input type="submit" value="Cadastrar" class="add_cart">
+        <input type="submit" value="Cadastrar" class="add_cart">
 
-</form>
+    </form>
 
-<br>
+    <br>
 
-<?php
+    <?php
+    // Verifica se a variável $mensagem existe (ou seja, se o formulário foi enviado e processado)
+    if(isset($mensagem)){
 
-if(isset($mensagem)){
+        // Exibe a mensagem de sucesso centralizada e na cor verde
+        echo "<p style='text-align:center; color:green;'>
+        $mensagem
+        </p>";
 
-echo "<p style='text-align:center; color:green;'>
-$mensagem
-</p>";
-
-}
-
-?>
+    }
+    ?>
 
 </div>
 
-<?php include("footer.php"); ?>
+<?php 
+// Inclui o rodapé da página (fechamento de tags HTML e scripts)
+include("footer.php"); 
+?>

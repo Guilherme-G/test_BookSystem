@@ -1,94 +1,110 @@
 <?php
 
+// Inicia uma nova sessão ou retoma a sessão existente no servidor
 session_start();
 
+// Inclui o arquivo de conexão com o banco de dados
 include("conexao.php");
 
+// Verifica se o formulário de login foi enviado via método POST
 if($_POST){
 
-$RA = $_POST["RA"];
-$senha = $_POST["senha"];
+    // Recebe os dados digitados pelo usuário (RA e Senha)
+    $RA = $_POST["RA"];
+    $senha = $_POST["senha"];
 
-$sql = "SELECT * FROM usuarios WHERE RA='$RA'";
+    // Monta a consulta SQL para buscar o usuário no banco através do RA informado
+    $sql = "SELECT * FROM usuarios WHERE RA='$RA'";
 
-$resultado = mysqli_query($conexao, $sql);
+    // Executa a consulta no banco de dados
+    $resultado = mysqli_query($conexao, $sql);
 
-if(mysqli_num_rows($resultado) > 0){
+    // Verifica se a consulta retornou pelo menos 1 linha (ou seja, se o RA existe no banco)
+    if(mysqli_num_rows($resultado) > 0){
 
-$usuario = mysqli_fetch_assoc($resultado);
+        // Transforma a linha encontrada em um array associativo com os dados do usuário
+        $usuario = mysqli_fetch_assoc($resultado);
 
-if(password_verify($senha, $usuario["senha"])){
+        // Segurança: Verifica se a senha digitada corresponde à hash criptografada do banco
+        if(password_verify($senha, $usuario["senha"])){
 
-$_SESSION["logado"] = true;
+            // Se a senha estiver correta, define a variável de sessão "logado" como verdadeira
+            $_SESSION["logado"] = true;
 
-header("Location: home.php");
+            // Redireciona o usuário para a página principal (home.php)
+            header("Location: home.php");
 
-exit();
+            // Interrompe a execução do script para garantir o redirecionamento imediato
+            exit();
 
-} else {
+        } else {
 
-$erro = "Senha incorreta";
+            // Se a senha não bater, define a mensagem de erro correspondente
+            $erro = "Senha incorreta";
+
+        }
+
+    } else {
+
+        // Se o RA não for encontrado no banco de dados, define a mensagem de erro
+        $erro = "Usuário não encontrado";
+
+    }
 
 }
 
-} else {
-
-$erro = "Usuário não encontrado";
-
-}
-
-}
-
+// Inclui o arquivo de cabeçalho da página (HTML inicial, CSS, etc.)
 include("header.php");
 
 ?>
 
 <div id="login_box">
 
-<img class="logo_login" src="img/LOGO.png">
+    <img class="logo_login" src="img/LOGO.png">
 
-<br><br>
+    <br><br>
 
-<form method="POST">
+    <form method="POST">
 
-RA:
-<br>
+        RA:
+        <br>
+        <input type="text" name="RA" id="login">
 
-<input type="text" name="RA" id="login">
+        <br>
 
-<br>
+        Senha:
+        <br>
+        <input type="password" name="senha" id="senha">
 
-Senha:
-<br>
+        <br><br>
 
-<input type="password" name="senha" id="senha">
+        <input type="submit" value="Entrar" id="submit">
 
-<br><br>
+    </form>
 
-<input type="submit" value="Entrar" id="submit">
+    <br>
 
-</form>
+    <a href="cadastro.php">
+        Não tem uma conta? Cadastre-se
+    </a>
 
-<br>
+    <br><br>
 
-<a href="cadastro.php">
-Não tem uma conta? Cadastre-se
-</a>
+    <?php
+    // Verifica se a variável $erro foi definida durante a validação do PHP acima
+    if(isset($erro)){
 
-<br><br>
+        // Exibe a mensagem de erro (Usuário não encontrado ou Senha incorreta) em vermelho e centralizada
+        echo "<p style='color:red; text-align:center;'>
+        $erro
+        </p>";
 
-<?php
-
-if(isset($erro)){
-
-echo "<p style='color:red; text-align:center;'>
-$erro
-</p>";
-
-}
-
-?>
+    }
+    ?>
 
 </div>
 
-<?php include("footer.php"); ?>
+<?php 
+// Inclui o rodapé padrão do sistema para fechar as tags HTML
+include("footer.php"); 
+?>

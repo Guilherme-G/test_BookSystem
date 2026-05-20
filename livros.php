@@ -1,20 +1,27 @@
 <?php
 
+// Inicia ou retoma a sessão ativa no servidor
 session_start();
 
+// PROTEÇÃO: Verifica se o usuário NÃO está logado
 if(!isset($_SESSION["logado"])){
 
+    // Se não houver sessão ativa, bloqueia o acesso e manda para o index.php
     header("Location: index.php");
     exit();
 
 }
 
+// Inclui o arquivo de conexão com o banco de dados
 include("conexao.php");
 
+// Cria a consulta SQL para buscar todos os livros organizados em ordem alfabética (A-Z)
 $sql = "SELECT * FROM livros ORDER BY titulo ASC";
 
+// Executa a busca no banco de dados e guarda o resultado
 $resultado = mysqli_query($conexao, $sql);
 
+// Inclui o topo da página e a barra de navegação
 include("header.php");
 
 ?>
@@ -34,10 +41,13 @@ include("header.php");
             <th>Categoria</th>
             <th>Data</th>
             <th>Quantidade</th>
-            <th>Ações</th>
-        </tr>
+            <th>Ações</th> </tr>
 
-        <?php while($dados = mysqli_fetch_assoc($resultado)){ ?>
+        <?php 
+        // LAÇO DE REPETIÇÃO: Enquanto houver registros no banco, o 'while' extrai a linha atual 
+        // transformando-a no array associativo $dados, e repete a estrutura HTML <tr> abaixo.
+        while($dados = mysqli_fetch_assoc($resultado)){ 
+        ?>
 
         <tr>
 
@@ -55,31 +65,31 @@ include("header.php");
 
             <td>
 
-                <a class="acao_link"
-                href="altera.php?id=<?php echo $dados["id"]; ?>">
-
-                Editar
-
+                <a class="acao_link" href="altera.php?id=<?php echo $dados["id"]; ?>">
+                    Editar
                 </a>
 
                 <br><br>
 
-                <a class="acao_link"
-                href="exclui.php?id=<?php echo $dados["id"]; ?>"
-                onclick="return confirm('Tem certeza que deseja excluir este livro?')">
-
-                Excluir
-
+                <a class="acao_link" 
+                   href="exclui.php?id=<?php echo $dados["id"]; ?>"
+                   onclick="return confirm('Tem certeza que deseja excluir este livro?')">
+                    Excluir
                 </a>
 
             </td>
 
         </tr>
 
-        <?php } ?>
+        <?php 
+        } // Fim do laço while. O PHP volta para o início para checar se há um próximo livro.
+        ?>
 
     </table>
 
 </div>
 
-<?php include("footer.php"); ?>
+<?php 
+// Inclui o rodapé da página para fechar as tags abertas
+include("footer.php"); 
+?>
